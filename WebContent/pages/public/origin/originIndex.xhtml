@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/pages/public/templates/master.xhtml">
+		<ui:define name="divMain">
+			<h:form id="OriginForm">
+				<p:dataTable id="OriginTable" value="#{OriginBean.allOrigins}" var="origin" emptyMessage="#{bundle.noRecords}" paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{bundle.originName}" />
+						</f:facet>
+
+						<h:outputText value="#{origin.name}" />
+					</p:column>
+
+					<p:column>
+						<p:commandButton value="#{bundle.detail}" icon="ui-icon-bullet" onclick="PF('originDetailDialogWidget').show()" update=":originDetailDialogForm" >
+							<f:setPropertyActionListener target="#{OriginBean.origin}" value="#{origin}" />
+						</p:commandButton> 
+						<p:spacer width="10px" />
+						<p:commandButton value="#{bundle.update}" icon="ui-icon-pencil" update=":originUpdateDialogForm" onclick="PF('originUpdateDialogWidget').show()" >
+							<f:setPropertyActionListener target="#{originBean.origin}" value="#{origin}" />
+						</p:commandButton>
+						<p:spacer width="10px" />
+						<p:commandButton value="#{bundle.delete}" icon="ui-icon-trash" update=":originDeleteDialogForm" onclick="PF('originDeleteDialogWidget').show()" >
+							<f:setPropertyActionListener target="#{originBean.origin}" value="#{origin}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+				<p:commandButton value="#{bundle.create} #{bundle.origin}" icon="ui-icon-plus" update=":originCreateDialogForm"
+					actionListener="#{originBean.resetLanguage()}" onclick="PF('originCreateDialogWidget').show()" />
+			</h:form>
+
+			<ui:include src="/pages/public/origin/dialogs/originCreateDialog.xhtml" />
+			<ui:include src="/pages/public/origin/dialogs/originDetailDialog.xhtml" />
+			<ui:include src="/pages/public/origin/dialogs/originUpdateDialog.xhtml" />
+			<ui:include src="/pages/public/origin/dialogs/originDeleteDialog.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
