@@ -32,7 +32,7 @@
 
 				</p:dataTable>
 				<p:commandButton value="#{bundle.create} #{bundle.origin}" icon="ui-icon-plus" update=":originCreateDialogForm"
-					actionListener="#{originBean.resetLanguage()}" onclick="PF('originCreateDialogWidget').show()" />
+					actionListener="#{originBean.resetOrigin()}" onclick="PF('originCreateDialogWidget').show()" />
 			</h:form>
 
 			<ui:include src="/pages/public/origin/dialogs/originCreateDialog.xhtml" />
