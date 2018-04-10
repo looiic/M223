@@ -7,8 +7,10 @@ import javax.persistence.EntityManager;
 
 import ch.gibm.dao.EntityManagerHelper;
 import ch.gibm.dao.LanguageDAO;
+import ch.gibm.dao.OriginDAO;
 import ch.gibm.dao.PersonDAO;
 import ch.gibm.entity.Language;
+import ch.gibm.entity.Origin;
 import ch.gibm.entity.Person;
 
 public class PersonFacade implements Serializable {
@@ -16,6 +18,7 @@ public class PersonFacade implements Serializable {
 	
 	private PersonDAO personDAO = new PersonDAO();
 	private LanguageDAO languageDAO = new LanguageDAO();
+	private OriginDAO originDAO = new OriginDAO();
 
 	public void createPerson(Person person) {
 		EntityManagerHelper.beginTransaction();
@@ -77,6 +80,31 @@ public class PersonFacade implements Serializable {
 		Person person = personDAO.find(personId);
 		person.getLanguages().remove(language);
 		language.getPersons().remove(person);
+		EntityManagerHelper.commitAndCloseTransaction();
+	}
+	
+	public Person findPersonWithAllOrigins(int personId) {
+		EntityManagerHelper.beginTransaction();
+		Person person = personDAO.findPersonWithAllOrigins(personId);
+		EntityManagerHelper.commitAndCloseTransaction();
+		return person;
+	}
+	
+	public void addOriginToPerson(int originId, int personId) {
+		EntityManagerHelper.beginTransaction();
+		Origin origin = originDAO.find(originId);
+		Person person = personDAO.find(personId);
+		person.getOrigins().add(origin);
+		origin.getPersons().add(person);
+		EntityManagerHelper.commitAndCloseTransaction();
+	}
+
+	public void removeOriginFromPerson(int originId, int personId) {
+		EntityManagerHelper.beginTransaction();
+		Origin origin = originDAO.find(originId);
+		Person person = personDAO.find(personId);
+		person.getOrigins().remove(origin);
+		origin.getPersons().remove(person);
 		EntityManagerHelper.commitAndCloseTransaction();
 	}
 }

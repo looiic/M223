@@ -19,7 +19,8 @@ public class Origin implements Serializable {
 	private int id;
 	private String name;
 	
-
+	@ManyToMany(mappedBy="origins")
+	private List<Person> persons;
 	
 	public int getId() {
 		return id;
@@ -37,13 +38,13 @@ public class Origin implements Serializable {
 		this.name = name;
 	}
 
-//	public List<Person> getPersons() {
-//		return persons;
-//	}
-//
-//	public void setPersons(List<Person> persons) {
-//		this.persons = persons;
-//	}
+	public List<Person> getPersons() {
+		return persons;
+	}
+
+	public void setPersons(List<Person> persons) {
+		this.persons = persons;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

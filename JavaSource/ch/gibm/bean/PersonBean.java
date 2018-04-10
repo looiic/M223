@@ -11,7 +11,9 @@ import javax.faces.bean.ViewScoped;
 import com.sun.faces.context.flash.ELFlash;
 
 import ch.gibm.entity.Language;
+import ch.gibm.entity.Origin;
 import ch.gibm.entity.Person;
+import ch.gibm.facade.OriginFacade;
 import ch.gibm.facade.PersonFacade;
 
 @ViewScoped
@@ -29,6 +31,12 @@ public class PersonBean extends AbstractBean implements Serializable {
 	@ManagedProperty(value="#{languageBean}")
 	private LanguageBean languageBean;
 	
+	@ManagedProperty(value="#{originBean}")
+	private OriginBean originBean;
+	
+	private Origin origin;
+	private Person personWithOrigins;
+	private Person personWithOriginsForDetail;
 
 	private List<Person> persons;
 	private PersonFacade personFacade;
@@ -133,6 +141,67 @@ public class PersonBean extends AbstractBean implements Serializable {
 		ELFlash.getFlash().put(SELECTED_PERSON, person);
 		return "/pages/public/person/personLanguages/personLanguages.xhtml";
 	}
+	
+	
+	//OOOOOOOOORIIIIGIIIIIIIIIIIIIINNNNNNNNNNNSSSSSSSSSSSSSSSSSSSSSS
+	public void addOriginToPerson() {
+		try {
+			getPersonFacade().addOriginToPerson(origin.getId(), personWithOrigins.getId());
+			closeDialog();
+			displayInfoMessageToUser("Added with success");
+			reloadPersonWithOrigins();
+			resetOrigin();
+		} catch (Exception e) {
+			keepDialogOpen();
+			displayErrorMessageToUser("A problem occurred while saving. Try again later");
+			e.printStackTrace();
+		}
+	}
+
+	public void removeOriginFromPerson() {
+		try {
+			getPersonFacade().removeOriginFromPerson(origin.getId(), personWithOrigins.getId());
+			closeDialog();
+			displayInfoMessageToUser("Removed with success");
+			reloadPersonWithOrigins();
+			resetOrigin();
+		} catch (Exception e) {
+			keepDialogOpen();
+			displayErrorMessageToUser("A problem occurred while removing. Try again later");
+			e.printStackTrace();
+		}
+	}
+
+	public Person getPersonWithOrigins() {
+		if (personWithOrigins == null) {
+			person = (Person) ELFlash.getFlash().get(SELECTED_PERSON);
+			personWithOrigins = getPersonFacade().findPersonWithAllOrigins(person.getId());
+		}
+
+		return personWithOrigins;
+	}
+
+	public void setPersonWithOriginsForDetail(Person person) {
+		personWithOriginsForDetail = getPersonFacade().findPersonWithAllOrigins(person.getId());
+	}
+
+	public Person getPersonWithOriginsForDetail() {
+		if (personWithOriginsForDetail == null) {
+			personWithOriginsForDetail = new Person();
+			personWithOriginsForDetail.setOrigins(new ArrayList<Origin>());
+		}
+
+		return personWithOriginsForDetail;
+	}
+
+	public void resetPersonWithOriginsForDetail() {
+		personWithOriginsForDetail = new Person();
+	}
+
+	public String editPersonOrigins() {
+		ELFlash.getFlash().put(SELECTED_PERSON, person);
+		return "/pages/public/person/personOrigin/personOrigin.xhtml";
+	}
 
 	public PersonFacade getPersonFacade() {
 		if (personFacade == null) {
@@ -157,6 +226,10 @@ public class PersonBean extends AbstractBean implements Serializable {
 	public void setLanguageBean(LanguageBean languageBean) {
 		this.languageBean = languageBean;
 	}
+	
+	public void setOriginBean(OriginBean originBean) {
+		this.originBean = originBean;
+	}
 
 	public List<Person> getAllPersons() {
 		if (persons == null) {
@@ -171,6 +244,16 @@ public class PersonBean extends AbstractBean implements Serializable {
 		List<Language> res = new ArrayList<Language>(this.languageBean.getAllLanguages());
 		//remove already added languages
 		res.removeAll(personWithLanguages.getLanguages());
+		//remove when name not occurs
+		res.removeIf(l -> l.getName().toLowerCase().contains(name.toLowerCase()) == false);
+		return res;
+	}
+	
+	public List<Origin> getRemainingOrigins(String name) {
+		//get all languages as copy
+		List<Origin> res = new ArrayList<Origin>(this.originBean.getAllOrigins());
+		//remove already added languages
+		res.removeAll(personWithOrigins.getOrigins());
 		//remove when name not occurs
 		res.removeIf(l -> l.getName().toLowerCase().contains(name.toLowerCase()) == false);
 		return res;
@@ -199,8 +282,27 @@ public class PersonBean extends AbstractBean implements Serializable {
 	public void resetLanguage() {
 		language = new Language();
 	}
+	
+	public Origin getOrigin() {
+		if(origin == null) {
+			origin = new Origin();
+		}
+		return origin;
+	}
+	
+	public void setOrigin(Origin origin) {
+		this.origin = origin;
+	}
+	
+	public void resetOrigin() {
+		origin = new Origin();
+	}
 
 	private void reloadPersonWithLanguages() {
 		personWithLanguages = getPersonFacade().findPersonWithAllLanguages(person.getId());
+	}
+	
+	private void reloadPersonWithOrigins() {
+		personWithOrigins = getPersonFacade().findPersonWithAllOrigins(person.getId());
 	}
 }

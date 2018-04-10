@@ -10,14 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQuery(name = "Person.findPersonByIdWithLanguages", query = "select p from Person p left join fetch p.languages where p.id = :personId")
+@NamedQueries({
+	@NamedQuery(name = "Person.findPersonByIdWithLanguages", query = "select p from Person p left join fetch p.languages where p.id = :personId"),
+	@NamedQuery(name = "Person.findPersonByIdWithOrigins", query = "select p from Person p left join fetch p.origins where p.id = :personId")
+})
 public class Person implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final String FIND_PERSON_BY_ID_WITH_LANGUAGES = "Person.findPersonByIdWithLanguages";
+	public static final String FIND_PERSON_BY_ID_WITH_ORIGINS = "Person.findPersonByIdWithOrigins";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +34,8 @@ public class Person implements Serializable {
 	@ManyToMany
 	private List<Language> languages;
 	
-	@ManyToOne
-	@JoinColumn(name="origin",
-				foreignKey = @javax.persistence.ForeignKey(name= "origin_fk"))
-	private Origin origin;
+	@ManyToMany
+	private List<Origin> origins;
 
 	public String getGeschlecht() {
 		return geschlecht;
@@ -67,12 +70,12 @@ public class Person implements Serializable {
 	}
 	
 
-	public Origin getOrigin() {
-		return origin;
+	public List<Origin> getOrigins() {
+		return origins;
 	}
 
-	public void setOrigin(Origin origin) {
-		this.origin = origin;
+	public void setOrigins(List<Origin> origins) {
+		this.origins = origins;
 	}
 
 	public int getAge() {

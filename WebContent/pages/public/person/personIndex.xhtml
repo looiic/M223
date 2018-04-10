@@ -33,6 +33,11 @@
 							action="#{personBean.editPersonLanguages()}">
 								<f:setPropertyActionListener target="#{personBean.person}" value="#{person}" />
 						</p:commandButton>
+						<p:spacer width="10px" />
+						<p:commandButton value="#{bundle.personEditOrigins}" icon="ui-icon-contact" ajax="false"
+							action="#{personBean.editPersonOrigins()}">
+								<f:setPropertyActionListener target="#{personBean.person}" value="#{person}" />
+						</p:commandButton>
 					</p:column>
 
 				</p:dataTable>
