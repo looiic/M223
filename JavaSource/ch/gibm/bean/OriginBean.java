@@ -81,7 +81,7 @@ public class OriginBean extends AbstractBean implements Serializable {
 		}
 	}
 
-	public List<Origin> getAllOrigin() {
+	public List<Origin> getAllOrigins() {
 		if (origins == null) {
 			loadOrigins();
 		}
