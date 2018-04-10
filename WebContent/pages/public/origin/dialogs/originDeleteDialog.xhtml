@@ -8,7 +8,7 @@
 			#{bundle.deleteRecord}: <h:outputText value="#{originBean.origin.name}" /><br/><br/>
 
 			<p:commandButton value="#{bundle.delete}" icon="ui-icon-plus" action="#{originBean.deleteOrigin()}"
-				update=":messageGrowl :languagesForm:languagesTable"
+				update=":messageGrowl :originForm:originTable"
 				oncomplete="closeDialogIfSucess(xhr, status, args, PF('originDeleteDialogWidget'), 'originDeleteDialogId')" />
 			<p:commandButton value="#{bundle.cancel}" icon="ui-icon-cancel" actionListener="#{originBean.resetOrigin()}"
 				onclick="PF('originDeleteDialogWidget').hide()" type="button" />

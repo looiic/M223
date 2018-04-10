@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Origin implements Serializable {
@@ -18,8 +19,6 @@ public class Origin implements Serializable {
 	private int id;
 	private String name;
 	
-	@ManyToMany(mappedBy="persons") //TODO: Enter something in the " "
-	private List<Person> persons;
 
 	
 	public int getId() {
@@ -38,13 +37,13 @@ public class Origin implements Serializable {
 		this.name = name;
 	}
 
-	public List<Person> getPersons() {
-		return persons;
-	}
-
-	public void setPersons(List<Person> persons) {
-		this.persons = persons;
-	}
+//	public List<Person> getPersons() {
+//		return persons;
+//	}
+//
+//	public void setPersons(List<Person> persons) {
+//		this.persons = persons;
+//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

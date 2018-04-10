@@ -17,7 +17,7 @@
 		
 				<p:commandButton value="#{bundle.create}" icon="ui-icon-plus"
 					action="#{originBean.createOrigin()}"
-					update=":messageGrowl :originForm:OriginTable"
+					update=":messageGrowl :originForm:originTable"
 					oncomplete="closeDialogIfSucess(xhr, status, args, PF('originCreateDialogWidget'), 'originCreateDialogId')" />
 				<p:commandButton value="#{bundle.cancel}" icon="ui-icon-cancel" actionListener="#{originBean.resetOrigin()}"
 					onclick="PF('originCreateDialogWidget').hide()" type="button" />

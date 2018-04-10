@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 
 @Entity
@@ -26,7 +28,10 @@ public class Person implements Serializable {
 	@ManyToMany
 	private List<Language> languages;
 	
-	
+	@ManyToOne
+	@JoinColumn(name="origin",
+				foreignKey = @javax.persistence.ForeignKey(name= "origin_fk"))
+	private Origin origin;
 
 	public String getGeschlecht() {
 		return geschlecht;
@@ -58,6 +63,15 @@ public class Person implements Serializable {
 
 	public void setLanguages(List<Language> languages) {
 		this.languages = languages;
+	}
+	
+
+	public Origin getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(Origin origin) {
+		this.origin = origin;
 	}
 
 	@Override
