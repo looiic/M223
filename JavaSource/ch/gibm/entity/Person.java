@@ -24,6 +24,7 @@ public class Person implements Serializable {
 	private int id;
 	private String name;
 	private String geschlecht;
+	private int age;
 
 	@ManyToMany
 	private List<Language> languages;
@@ -74,8 +75,12 @@ public class Person implements Serializable {
 		this.origin = origin;
 	}
 
+	public int getAge() {
+		return age;
 	}
 
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	@Override
