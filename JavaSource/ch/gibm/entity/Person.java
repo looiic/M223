@@ -74,6 +74,10 @@ public class Person implements Serializable {
 		this.origin = origin;
 	}
 
+	}
+
+	}
+
 	@Override
 	public int hashCode() {
 		return id;

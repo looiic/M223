@@ -15,6 +15,8 @@
 				
  				<h:outputText value="* #{bundle.personGeschlecht}" />
 				<h:inputText value="#{personBean.person.geschlecht}" required="true" label="#{bundle.personGeschlecht}" />
+				
+				<h:outputText value="* #{bundle.personAlter}" />
 		
 				<p:commandButton value="#{bundle.create}" icon="ui-icon-plus"
 					action="#{personBean.createPerson()}"

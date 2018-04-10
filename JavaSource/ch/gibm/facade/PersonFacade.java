@@ -27,6 +27,8 @@ public class PersonFacade implements Serializable {
 		EntityManagerHelper.beginTransaction();
 		Person persistedPerson = personDAO.find(person.getId());
 		persistedPerson.setName(person.getName());
+		persistedPerson.setGeschlecht(person.getGeschlecht());
+		persistedPerson.setAge(person.getAge());
 		EntityManagerHelper.commitAndCloseTransaction();
 	}
 	
