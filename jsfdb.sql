@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 16. Apr 2018 um 14:28
--- Server-Version: 10.1.9-MariaDB
--- PHP-Version: 5.6.15
+-- Erstellungszeit: 17. Apr 2018 um 10:22
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,6 +31,15 @@ CREATE TABLE `language` (
   `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Daten für Tabelle `language`
+--
+
+INSERT INTO `language` (`id`, `name`) VALUES
+(1, 'Muschianisch'),
+(2, 'Penisianisch'),
+(3, 'Robertanisch');
+
 -- --------------------------------------------------------
 
 --
@@ -41,6 +50,15 @@ CREATE TABLE `origin` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `origin`
+--
+
+INSERT INTO `origin` (`id`, `name`) VALUES
+(1, 'Schwiz'),
+(2, 'Muschiland'),
+(3, 'Robertland');
 
 -- --------------------------------------------------------
 
@@ -54,6 +72,13 @@ CREATE TABLE `person` (
   `geschlecht` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `person`
+--
+
+INSERT INTO `person` (`id`, `age`, `geschlecht`, `name`) VALUES
+(1, 12, 'Unbekannt', 'Robert ränldlös');
 
 -- --------------------------------------------------------
 
@@ -85,18 +110,18 @@ CREATE TABLE `person_origin` (
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `role_name` varchar(5) NOT NULL,
-  `user_name` varchar(255) NOT NULL,
-  `user_pass` varchar(30) DEFAULT NULL
+  `admin` bit(1) NOT NULL,
+  `user` bit(1) NOT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `user_pass` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `role_name`, `user_name`, `user_pass`) VALUES
-(2, 'admin', 'Robert', 'test'),
-(3, 'user', 'Rob', NULL);
+INSERT INTO `user` (`id`, `admin`, `user`, `user_name`, `user_pass`) VALUES
+(1, b'1', b'1', 'Robert', 'test');
 
 -- --------------------------------------------------------
 
@@ -105,6 +130,7 @@ INSERT INTO `user` (`id`, `role_name`, `user_name`, `user_pass`) VALUES
 --
 
 CREATE TABLE `user_role` (
+  `user_name` varchar(15) NOT NULL,
   `role_name` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -112,9 +138,9 @@ CREATE TABLE `user_role` (
 -- Daten für Tabelle `user_role`
 --
 
-INSERT INTO `user_role` (`role_name`) VALUES
-('admin'),
-('user');
+INSERT INTO `user_role` (`user_name`, `role_name`) VALUES
+('Robert', 'admin'),
+('Robert', 'user');
 
 --
 -- Indizes der exportierten Tabellen
@@ -162,7 +188,7 @@ ALTER TABLE `user`
 -- Indizes für die Tabelle `user_role`
 --
 ALTER TABLE `user_role`
-  ADD PRIMARY KEY (`role_name`);
+  ADD PRIMARY KEY (`user_name`,`role_name`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -172,22 +198,22 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT für Tabelle `language`
 --
 ALTER TABLE `language`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT für Tabelle `origin`
 --
 ALTER TABLE `origin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT für Tabelle `person`
 --
 ALTER TABLE `person`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Constraints der exportierten Tabellen
 --

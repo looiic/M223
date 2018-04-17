@@ -57,9 +57,9 @@ public class Origin implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Person) {
-			Person person = (Person) obj;
-			return person.getId() == id;
+		if (obj instanceof Origin) {
+			Origin origin = (Origin) obj;
+			return origin.getId() == id;
 		}
 
 		return false;
