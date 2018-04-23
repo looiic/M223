@@ -3,7 +3,7 @@
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
 <h:body>
 	<ui:composition template="/pages/public/templates/master.xhtml">
-		<ui:define name="divMain">
+		<ui:define name="divMain" rendered="#{userBean.admin}">
 			<h:form id="originForm">
 				<p:dataTable id="originTable" value="#{originBean.allOrigins}" var="origin" emptyMessage="#{bundle.noRecords}" paginator="true" rows="10"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

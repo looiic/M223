@@ -28,6 +28,18 @@ public class User implements Serializable {
 	private int id;
 	private String user_name;
 	private String user_pass;
+	
+	private String status;
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public int getId() {
 		return id;

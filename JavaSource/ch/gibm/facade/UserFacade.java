@@ -25,6 +25,7 @@ public class UserFacade implements Serializable {
 		EntityManagerHelper.beginTransaction();
 		User persistedUser = userDAO.find(user.getId());
 		persistedUser.setUser_name(user.getUser_name());
+		persistedUser.setStatus(user.getStatus());
 		if(userDAO.getUserAdminByName(user.getUser_name()) != null) {
 			admin = true;
 		}
