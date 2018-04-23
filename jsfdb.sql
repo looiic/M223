@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 17. Apr 2018 um 10:22
+-- Erstellungszeit: 23. Apr 2018 um 23:30
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -70,15 +70,16 @@ CREATE TABLE `person` (
   `id` int(11) NOT NULL,
   `age` int(11) NOT NULL,
   `geschlecht` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL
+  `name` varchar(255) DEFAULT NULL,
+  `version` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `person`
 --
 
-INSERT INTO `person` (`id`, `age`, `geschlecht`, `name`) VALUES
-(1, 12, 'Unbekannt', 'Robert ränldlös');
+INSERT INTO `person` (`id`, `age`, `geschlecht`, `name`, `version`) VALUES
+(1, 12, 'Unbekannt', 'Robert ränldlös', 0);
 
 -- --------------------------------------------------------
 
@@ -113,15 +114,17 @@ CREATE TABLE `user` (
   `admin` bit(1) NOT NULL,
   `user` bit(1) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
-  `user_pass` varchar(255) DEFAULT NULL
+  `user_pass` varchar(255) DEFAULT NULL,
+  `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Daten für Tabelle `user`
 --
 
-INSERT INTO `user` (`id`, `admin`, `user`, `user_name`, `user_pass`) VALUES
-(1, b'1', b'1', 'Robert', 'test');
+INSERT INTO `user` (`id`, `admin`, `user`, `user_name`, `user_pass`, `status`) VALUES
+(1, b'1', b'1', 'Robert', 'test', 'gay'),
+(2, b'0', b'1', 'Loic', 'test', 'hetero');
 
 -- --------------------------------------------------------
 
@@ -139,6 +142,7 @@ CREATE TABLE `user_role` (
 --
 
 INSERT INTO `user_role` (`user_name`, `role_name`) VALUES
+('Loic', 'user'),
 ('Robert', 'admin'),
 ('Robert', 'user');
 
@@ -213,7 +217,7 @@ ALTER TABLE `person`
 -- AUTO_INCREMENT für Tabelle `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints der exportierten Tabellen
 --
