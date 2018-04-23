@@ -16,12 +16,16 @@ public class UserBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private User user;
+	private UserFacade userFacade = new UserFacade();
+
 
 	public boolean isAdmin() {
+		userFacade.updateUser(getUser());
 		return this.getUser() != null ? user.isAdmin() : false;
 	}
 
 	public boolean isDefaultUser() {
+		userFacade.updateUser(getUser());
 		return this.getUser() != null ? user.isUser() : false;
 	}
 

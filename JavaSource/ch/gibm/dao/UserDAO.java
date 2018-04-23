@@ -22,4 +22,10 @@ public class UserDAO extends GenericDAO<User> {
 		parameters.put("name", name);
 		return super.findOneResult("Select u from user u where u.user_name = :name", parameters);
 	}
+	
+	public User getUserAdminByName(String name) {
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("name", name);
+		return super.findOneResult("Select admin from user where u.user_name = :name and admin = 1", parameters);
+	}
 }

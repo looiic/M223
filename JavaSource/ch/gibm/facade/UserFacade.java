@@ -21,9 +21,15 @@ public class UserFacade implements Serializable {
 	}
 
 	public void updateUser(User user) {
+		boolean admin = false;
 		EntityManagerHelper.beginTransaction();
 		User persistedUser = userDAO.find(user.getId());
 		persistedUser.setUser_name(user.getUser_name());
+		if(userDAO.getUserAdminByName(user.getUser_name()) != null) {
+			admin = true;
+		}
+		persistedUser.setAdmin(admin);
+		persistedUser.setUser(user.isUser());
 		EntityManagerHelper.commitAndCloseTransaction();
 	}
 	
@@ -53,6 +59,9 @@ public class UserFacade implements Serializable {
 	public User getUserByName(String name) {
 		EntityManagerHelper.beginTransaction();
 		User user = userDAO.getUserByName(name);
+		updateUser(user);
+//		EntityManagerHelper.rollback();
+//		EntityManagerHelper.closeEntityManager();
 		EntityManagerHelper.commitAndCloseTransaction();
 		return user;
 	}
