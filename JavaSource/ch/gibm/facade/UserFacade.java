@@ -59,10 +59,12 @@ public class UserFacade implements Serializable {
 	public User getUserByName(String name) {
 		EntityManagerHelper.beginTransaction();
 		User user = userDAO.getUserByName(name);
+		EntityManagerHelper.commitAndCloseTransaction();		
 		updateUser(user);
+		
 //		EntityManagerHelper.rollback();
 //		EntityManagerHelper.closeEntityManager();
-		EntityManagerHelper.commitAndCloseTransaction();
+
 		return user;
 	}
 }

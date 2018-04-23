@@ -6,14 +6,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "User.getUserByName", query = "select u from User u where u.user_name = :name"),
+	@NamedQuery(name = "User.getUserAdminByName", query = "select u from User u where u.admin = :admin AND u.user_name = :name")
+})
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	public static final String FIND_PERSON_BY_ID_WITH_LANGUAGES = "User.findUserByIdWithLanguages";
-	public static final String FIND_PERSON_BY_ID_WITH_ORIGINS = "User.findUserByIdWithOrigins";
+	public static final String GET_USER_BY_NAME = "User.getUserByName";
+	public static final String GET_USER_ADMIN_BY_NAME = "User.getUserAdminByName";
 	private boolean admin;
 	private boolean user;
 	

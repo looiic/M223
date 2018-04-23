@@ -20,12 +20,16 @@ public class UserDAO extends GenericDAO<User> {
 	public User getUserByName(String name) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("name", name);
-		return super.findOneResult("Select u from user u where u.user_name = :name", parameters);
+	//	return super.findOneResult("Select u from user u where u.user_name = :name", parameters);
+		return super.findOneResult(User.GET_USER_BY_NAME, parameters);
 	}
 	
 	public User getUserAdminByName(String name) {
 		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put("admin", true);
 		parameters.put("name", name);
-		return super.findOneResult("Select admin from user where u.user_name = :name and admin = 1", parameters);
+		
+	//	return super.findOneResult("Select admin from user where u.user_name = :name and admin = 1", parameters);
+		return super.findOneResult(User.GET_USER_ADMIN_BY_NAME, parameters);
 	}
 }
