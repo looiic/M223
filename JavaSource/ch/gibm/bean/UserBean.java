@@ -20,12 +20,12 @@ public class UserBean implements Serializable {
 
 
 	public boolean isAdmin() {
-		userFacade.updateUser(getUser());
+		updateUser();
 		return this.getUser() != null ? user.isAdmin() : false;
 	}
 
 	public boolean isDefaultUser() {
-		userFacade.updateUser(getUser());
+		updateUser();
 		return this.getUser() != null ? user.isUser() : false;
 	}
 
@@ -35,7 +35,7 @@ public class UserBean implements Serializable {
 	}
 	
 	public void updateUser() {
-			userFacade.updateUser(user);
+			userFacade.updateUser(getUser());
 	}
 
 	public User getUser() {
