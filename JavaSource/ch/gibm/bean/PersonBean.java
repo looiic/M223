@@ -1,5 +1,6 @@
 package ch.gibm.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +8,14 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+
+import org.hibernate.dialect.lock.OptimisticEntityLockException;
 
 import com.sun.faces.context.flash.ELFlash;
 
+import ch.gibm.dao.EntityManagerHelper;
 import ch.gibm.entity.Language;
 import ch.gibm.entity.Origin;
 import ch.gibm.entity.Person;
@@ -62,6 +68,11 @@ public class PersonBean extends AbstractBean implements Serializable {
 			displayInfoMessageToUser("Updated with success");
 			loadPersons();
 			resetPerson();
+		} catch (OptimisticEntityLockException optimisticLockeException) {
+			// redirect to error page
+			redirectOnConcurrencyException();
+			displayErrorMessageToUser("The user has been upated since you opened the Dialog. Please reenter your changes");
+			optimisticLockeException.printStackTrace();
 		} catch (Exception e) {
 			keepDialogOpen();
 			displayErrorMessageToUser("A problem occurred while updating. Try again later");
@@ -304,5 +315,22 @@ public class PersonBean extends AbstractBean implements Serializable {
 	
 	private void reloadPersonWithOrigins() {
 		personWithOrigins = getPersonFacade().findPersonWithAllOrigins(person.getId());
+	}
+	
+	//GENERAL
+	
+	public void redirectOnConcurrencyException() {
+		 ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		    try {
+				ec.redirect("http://localhost:8080/JSFApp/pages/public/optimisticLockingException.xhtml");
+		    } catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if(EntityManagerHelper.getEntityManager().getTransaction().isActive()){
+					EntityManagerHelper.getEntityManager().getTransaction().rollback();
+					EntityManagerHelper.closeEntityManager();
+				}
+			}
+//		return "/pages/public/person/personIndex.xhtml";
 	}
 }
