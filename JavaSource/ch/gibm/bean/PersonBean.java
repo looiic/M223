@@ -34,12 +34,12 @@ public class PersonBean extends AbstractBean implements Serializable {
 	private Person personWithLanguages;
 	private Person personWithLanguagesForDetail;
 
-	@ManagedProperty(value="#{languageBean}")
+	@ManagedProperty(value = "#{languageBean}")
 	private LanguageBean languageBean;
-	
-	@ManagedProperty(value="#{originBean}")
+
+	@ManagedProperty(value = "#{originBean}")
 	private OriginBean originBean;
-	
+
 	private Origin origin;
 	private Person personWithOrigins;
 	private Person personWithOriginsForDetail;
@@ -71,7 +71,6 @@ public class PersonBean extends AbstractBean implements Serializable {
 		} catch (OptimisticEntityLockException optimisticLockeException) {
 			// redirect to error page
 			redirectOnConcurrencyException();
-			displayErrorMessageToUser("The user has been upated since you opened the Dialog. Please reenter your changes");
 			optimisticLockeException.printStackTrace();
 		} catch (Exception e) {
 			keepDialogOpen();
@@ -152,9 +151,8 @@ public class PersonBean extends AbstractBean implements Serializable {
 		ELFlash.getFlash().put(SELECTED_PERSON, person);
 		return "/pages/public/person/personLanguages/personLanguages.xhtml";
 	}
-	
-	
-	//OOOOOOOOORIIIIGIIIIIIIIIIIIIINNNNNNNNNNNSSSSSSSSSSSSSSSSSSSSSS
+
+	// OOOOOOOOORIIIIGIIIIIIIIIIIIIINNNNNNNNNNNSSSSSSSSSSSSSSSSSSSSSS
 	public void addOriginToPerson() {
 		try {
 			getPersonFacade().addOriginToPerson(origin.getId(), personWithOrigins.getId());
@@ -233,11 +231,11 @@ public class PersonBean extends AbstractBean implements Serializable {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-	
+
 	public void setLanguageBean(LanguageBean languageBean) {
 		this.languageBean = languageBean;
 	}
-	
+
 	public void setOriginBean(OriginBean originBean) {
 		this.originBean = originBean;
 	}
@@ -249,23 +247,23 @@ public class PersonBean extends AbstractBean implements Serializable {
 
 		return persons;
 	}
-	
+
 	public List<Language> getRemainingLanguages(String name) {
-		//get all languages as copy
+		// get all languages as copy
 		List<Language> res = new ArrayList<Language>(this.languageBean.getAllLanguages());
-		//remove already added languages
+		// remove already added languages
 		res.removeAll(personWithLanguages.getLanguages());
-		//remove when name not occurs
+		// remove when name not occurs
 		res.removeIf(l -> l.getName().toLowerCase().contains(name.toLowerCase()) == false);
 		return res;
 	}
-	
+
 	public List<Origin> getRemainingOrigins(String name) {
-		//get all languages as copy
+		// get all languages as copy
 		List<Origin> res = new ArrayList<Origin>(this.originBean.getAllOrigins());
-		//remove already added languages
+		// remove already added languages
 		res.removeAll(personWithOrigins.getOrigins());
-		//remove when name not occurs
+		// remove when name not occurs
 		res.removeIf(l -> l.getName().toLowerCase().contains(name.toLowerCase()) == false);
 		return res;
 	}
@@ -293,18 +291,18 @@ public class PersonBean extends AbstractBean implements Serializable {
 	public void resetLanguage() {
 		language = new Language();
 	}
-	
+
 	public Origin getOrigin() {
-		if(origin == null) {
+		if (origin == null) {
 			origin = new Origin();
 		}
 		return origin;
 	}
-	
+
 	public void setOrigin(Origin origin) {
 		this.origin = origin;
 	}
-	
+
 	public void resetOrigin() {
 		origin = new Origin();
 	}
@@ -312,25 +310,24 @@ public class PersonBean extends AbstractBean implements Serializable {
 	private void reloadPersonWithLanguages() {
 		personWithLanguages = getPersonFacade().findPersonWithAllLanguages(person.getId());
 	}
-	
+
 	private void reloadPersonWithOrigins() {
 		personWithOrigins = getPersonFacade().findPersonWithAllOrigins(person.getId());
 	}
-	
-	//GENERAL
-	
+
+	// GENERAL
+
 	public void redirectOnConcurrencyException() {
-		 ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-		    try {
-				ec.redirect("http://localhost:8080/JSFApp/pages/public/optimisticLockingException.xhtml");
-		    } catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				if(EntityManagerHelper.getEntityManager().getTransaction().isActive()){
-					EntityManagerHelper.getEntityManager().getTransaction().rollback();
-					EntityManagerHelper.closeEntityManager();
-				}
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		try {
+			ec.redirect("http://localhost:8080/JSFApp/pages/public/optimisticLockingException.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (EntityManagerHelper.getEntityManager().getTransaction().isActive()) {
+				EntityManagerHelper.getEntityManager().getTransaction().rollback();
+				EntityManagerHelper.closeEntityManager();
 			}
-//		return "/pages/public/person/personIndex.xhtml";
+		}
 	}
 }
