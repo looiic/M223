@@ -41,7 +41,7 @@
 		<web-resource-collection>
 			<web-resource-name>start</web-resource-name>
 			<description />
-			<url-pattern>/pages/public/origin/dialogs/*</url-pattern>
+			<url-pattern>/pages/public/origin/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<description />
